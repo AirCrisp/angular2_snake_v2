@@ -1,0 +1,12 @@
+md-grid-tile {
+  background: lightblue;
+}
+
+.matrix {
+    max-width: 400px;
+    min-width: 200px;
+}
+
+.cell {
+    border: 1px solid black;
+}
