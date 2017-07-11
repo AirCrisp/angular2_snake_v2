@@ -1,12 +1,14 @@
 md-grid-tile {
-  background: lightblue;
+  background-color:rgb(27,29,28);
 }
 
 .matrix {
     max-width: 400px;
     min-width: 200px;
+    margin:auto;
+    margin-top: 15px;
 }
 
 .cell {
-    border: 1px solid black;
+    border: 1px solid rgb(73,75,74);
 }

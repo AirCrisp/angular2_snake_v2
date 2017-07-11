@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class GameService {
     matrix: Matrix;
+    score = 0;
 
     gameInit(mRows: number, mCols: number){
 		this.matrix = {
