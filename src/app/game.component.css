@@ -12,3 +12,38 @@ md-grid-tile {
 .cell {
     border: 1px solid rgb(73,75,74);
 }
+
+.snake {
+    background-image: url('/assets/rect.png');
+    background-position: 50% 50%;
+    background-size: 300%;
+}
+
+.button_layer {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    max-height:400px;
+    min-height:200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button_layer button {
+	top: -60%;
+	left: 0%;
+	position: relative;
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+    margin:auto;
+    margin-top:100%;
+}
+
+.hide {
+	display:none;
+}

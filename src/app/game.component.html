@@ -1,5 +1,19 @@
 <md-grid-list cols="20" rowHeight="1:1" class="matrix">
+    <div class="button_layer" #buttonLayer [ngClass]="{'hide': !buttonVisible}">
+        <button md-fab class="new" 
+            (click)="gameStart($event)"
+            [ngClass]="{'hide': isPause}">
+            <md-icon aria-hidden="true">play_arrow</md-icon><span class="cdk-visually-hidden">New game</span>
+        </button>
+        <button md-fab class="resume" 
+            (click)="gameResume($event)"
+            [ngClass]="{'hide': !isPause}">
+            <md-icon aria-hidden="true">pause</md-icon><span class="cdk-visually-hidden">Resume</span>
+        </button>
+        <div class="dead hide"><span>Snake is DEAD!</span></div>
+    </div>
     <md-grid-tile *ngFor="let item of matrixBody; let i = index" 
-                    class="cell">
+                    class="cell"
+                    [ngClass]="{'snake': isSnake(i)}">
     </md-grid-tile>
 </md-grid-list>
