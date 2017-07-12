@@ -35,7 +35,6 @@ export class GameComponent implements OnInit{
       this.isDead = false;
       this.buttonLayerVisible = true;
       this.matrixBody = this.gameService.matrix.body;
-      console.log(this.buttonLayerVisible, this.isPlay, this.isPause, this.isDead);
   };
 
   @HostListener('window:keydown', ['$event']) keyboardInput(event: KeyboardEvent) {

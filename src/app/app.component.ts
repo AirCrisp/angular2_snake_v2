@@ -8,7 +8,7 @@ import { GameService } from './game.service';
 })
 export class AppComponent {
   title = 'Angular2Snake';
-  score: number;
+  score: number = 0;
 
   constructor(private gameService: GameService){
     this.gameService.scoreChange.subscribe(() => {
