@@ -14,6 +14,6 @@
     </div>
     <md-grid-tile *ngFor="let item of matrixBody; let i = index" 
                     class="cell"
-                    [ngClass]="{'snake': isSnake(i)}">
+                    [ngClass]="{'snake': isSnake(i), 'apple': isApple(i)}">
     </md-grid-tile>
 </md-grid-list>

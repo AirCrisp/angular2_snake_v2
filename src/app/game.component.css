@@ -19,6 +19,12 @@ md-grid-tile {
     background-size: 300%;
 }
 
+.apple {
+    background-image: url('/assets/apple.png');
+    background-position: 50% 50%;
+    background-size: 300%;
+}
+
 .button_layer {
 	width: 100%;
 	height: 100%;

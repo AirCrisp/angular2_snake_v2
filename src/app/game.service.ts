@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Subject} from 'rxjs/Subject';
 import { KEYS } from './app.config';
 
 @Injectable()
@@ -6,12 +7,18 @@ export class GameService {
     matrix: Matrix;
     score = 0;
     snake: Snake;
+    apple: Apple;
     intID: number;
     mRows: number;
     mCols: number;
     play: boolean = false;
     pause: boolean = false;
     changeFlag: boolean = true;
+    scoreChange = new Subject<number>();
+
+    doNextChange(value){
+        this.scoreChange.next(value);
+    };
 
     gameInit(mRows: number, mCols: number){
         this.mRows = mRows;
@@ -21,7 +28,10 @@ export class GameService {
         this.score = 0;
 
         this.snake = new Snake(mRows, mCols);
-		this.matrix.setCell(this.snake.body[0][0] + (this.snake.body[0][1]*mCols), 'snake');
+		this.matrix.setCell(this.snake.body[0][1] + (this.snake.body[0][0]*mCols), 'snake');
+
+        this.apple = new Apple(mRows, mCols);
+        this.matrix.setCell(this.apple.body[1] + (this.apple.body[0]*mCols), 'apple');
 	};
 
     gameStart(){
@@ -35,6 +45,21 @@ export class GameService {
     move(){
         this.snake.move();
         this.changeFlag = true;
+        if(this.snake.body[0][0] == this.apple.body[0] &&
+			this.snake.body[0][1] == this.apple.body[1]){
+				this.snake.eat();
+				this.score++;
+                this.doNextChange(this.score);
+				// if(!(this.score % 5) && (this.score > 0)) this.gameAccelerate();
+				do {
+				this.apple = new Apple(this.mRows, this.mCols);
+				this.matrix.setCell(this.apple.body[1] + (this.apple.body[0]*this.mCols), 'apple');
+				}
+				while (this.snake.body.some(function(currentEl){
+					return (this.apple.body[0] == currentEl[0] && this.apple.body[1] == currentEl[1])}, this));
+			};
+		// if(!this.snake.alive) this.gameStop();
+        console.log(this.apple.body[0], this.apple.body[1]);
         this.matrix.setCell((this.mCols)*this.snake.body[0][0] + this.snake.body[0][1], 'snake');
 		this.matrix.setCell((this.mCols)*this.snake.lastBody[this.snake.lastBody.length - 1][0] + this.snake.lastBody[this.snake.lastBody.length - 1][1], 'empty');
     };
@@ -74,6 +99,10 @@ export class GameService {
 
     isSnake(index: number){
         return this.matrix.getCell(index, 'snake');
+    };
+
+    isApple(index: number){
+        return this.matrix.getCell(index, 'apple');
     };
 }
 
@@ -127,4 +156,16 @@ export class Snake {
       this.body.pop();
     };
 
+    eat(){
+	    this.body.push(this.lastBody[this.lastBody.length - 1]);
+	};
+
+}
+
+export class Apple {
+    body: number[];
+
+	constructor(private mRows: number, private mCols: number){
+		this.body = [Math.round(Math.random()*mRows), Math.round(Math.random()*mCols)];
+	}
 }

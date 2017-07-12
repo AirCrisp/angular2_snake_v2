@@ -8,7 +8,11 @@ import { GameService } from './game.service';
 })
 export class AppComponent {
   title = 'Angular2Snake';
-  score = this.gameService.score;
+  score: number;
 
-  constructor(private gameService: GameService){};
+  constructor(private gameService: GameService){
+    this.gameService.scoreChange.subscribe(() => {
+          this.score = this.gameService.score;
+    });
+  };
 }

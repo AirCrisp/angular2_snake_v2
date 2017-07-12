@@ -37,6 +37,10 @@ export class GameComponent implements OnInit{
       return this.gameService.isSnake(index);
   };
 
+  isApple(index: number) {
+      return this.gameService.isApple(index);
+  };
+
   gameStart(event: any){
     this.gameService.gameInit(this.rows, this.cols);
     event.target.blur();
