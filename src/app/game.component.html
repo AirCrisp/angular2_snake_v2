@@ -1,4 +1,8 @@
-<md-grid-list cols="20" rowHeight="1:1" class="matrix">
+<md-grid-list cols="{{cols}}" rowHeight="1:1" class="matrix"
+    (swipeleft)="swipe($event.type)"
+    (swiperight)="swipe($event.type)"
+    (swipeup)="swipe($event.type)"
+    (swipedown)="swipe($event.type)">
     <div class="button_layer" #buttonLayer 
         [ngClass]="{'hide': !buttonLayerVisible}">
         <button md-fab class="new" 

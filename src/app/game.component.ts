@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, Input } from '@angular/core';
 
 import { KEYS } from './app.config';
 import { GameService } from './game.service';
@@ -10,9 +10,9 @@ import { GameService } from './game.service';
 })
 export class GameComponent implements OnInit{
   title = 'Angular2Snake';
+  @Input() rows: number;
+  @Input() cols: number;
   @ViewChild("death") death;
-  rows = 20;
-  cols = 20;
   matrixBody = Array();
   buttonLayerVisible: boolean = true;
   isPlay: boolean = false;
@@ -38,13 +38,32 @@ export class GameComponent implements OnInit{
   };
 
   @HostListener('window:keydown', ['$event']) keyboardInput(event: KeyboardEvent) {
-	if(this.gameService.play) {
-		this.gameService.changeCourse(event.keyCode);
-		if(event.keyCode == KEYS.SPACE_BAR) {
-			this.gamePause(event);
-		}
-	}
+    if(this.gameService.play) {
+      this.gameService.changeCourse(event.keyCode);
+      if(event.keyCode == KEYS.SPACE_BAR) {
+        this.gamePause(event);
+      }
+    }
   }
+
+  swipe(direction: string){
+	  if(this.gameService.play) {
+		  switch(direction) {
+			  case 'swipeleft' : 
+			  this.gameService.changeCourse(KEYS.LEFT);
+			  break;
+			  case 'swiperight' : 
+			  this.gameService.changeCourse(KEYS.RIGHT);
+			  break;
+			  case 'swipeup' : 
+			  this.gameService.changeCourse(KEYS.UP);
+			  break;
+			  case 'swipedown' : 
+			  this.gameService.changeCourse(KEYS.DOWN);
+			  break;
+		  };
+		}
+  };
 
   isSnake(index: number){
       return this.gameService.isSnake(index);
