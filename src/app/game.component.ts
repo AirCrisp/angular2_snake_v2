@@ -41,24 +41,25 @@ export class GameComponent implements OnInit{
     if(this.gameService.play) {
       this.gameService.changeCourse(event.keyCode);
       if(event.keyCode == KEYS.SPACE_BAR) {
-        this.gamePause(event);
+        if (this.isPause) this.gameResume(event)
+        else this.gamePause(event);
       }
     }
   }
 
-  swipe(direction: string){
+  changeDir(direction: string){
 	  if(this.gameService.play) {
 		  switch(direction) {
-			  case 'swipeleft' : 
+			  case 'left' : 
 			  this.gameService.changeCourse(KEYS.LEFT);
 			  break;
-			  case 'swiperight' : 
+			  case 'right' : 
 			  this.gameService.changeCourse(KEYS.RIGHT);
 			  break;
-			  case 'swipeup' : 
+			  case 'up' : 
 			  this.gameService.changeCourse(KEYS.UP);
 			  break;
-			  case 'swipedown' : 
+			  case 'down' : 
 			  this.gameService.changeCourse(KEYS.DOWN);
 			  break;
 		  };

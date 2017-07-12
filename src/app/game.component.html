@@ -1,8 +1,8 @@
 <md-grid-list cols="{{cols}}" rowHeight="1:1" class="matrix"
-    (swipeleft)="swipe($event.type)"
-    (swiperight)="swipe($event.type)"
-    (swipeup)="swipe($event.type)"
-    (swipedown)="swipe($event.type)">
+    (swipeleft)="changeDir('left')"
+    (swiperight)="changeDir('right')"
+    (swipeup)="changeDir('up')"
+    (swipedown)="changeDir('down')">
     <div class="button_layer" #buttonLayer 
         [ngClass]="{'hide': !buttonLayerVisible}">
         <button md-fab class="new" 
@@ -24,4 +24,23 @@
                     class="cell"
                     [ngClass]="{'snake': isSnake(i), 'apple': isApple(i)}">
     </md-grid-tile>
+    <a class="pause" 
+            (click)="gameResume($event)"
+            [ngClass]="{'hide': !isPlay || isPause || isDead}">
+            <md-icon aria-hidden="true">pause</md-icon><span class="cdk-visually-hidden">Pause</span>
+    </a>
 </md-grid-list>
+<div class="direction_buttons">
+    <button md-fab class="left" (click)="changeDir('left')">
+        <md-icon aria-hidden="true">keyboard_arrow_left</md-icon><span class="cdk-visually-hidden">Left</span>
+    </button>
+    <button md-fab class="up" (click)="changeDir('up')">
+        <md-icon aria-hidden="true">keyboard_arrow_up</md-icon><span class="cdk-visually-hidden">Up</span>
+    </button>
+    <button md-fab class="down" (click)="changeDir('down')">
+        <md-icon aria-hidden="true">keyboard_arrow_down</md-icon><span class="cdk-visually-hidden">Down</span>
+    </button>
+    <button md-fab class="right" (click)="changeDir('right')">
+        <md-icon aria-hidden="true">keyboard_arrow_right</md-icon><span class="cdk-visually-hidden">Right</span>
+    </button>
+</div>
