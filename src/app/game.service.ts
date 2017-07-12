@@ -15,9 +15,14 @@ export class GameService {
     pause: boolean = false;
     changeFlag: boolean = true;
     scoreChange = new Subject<number>();
+    snakeDead = new Subject<Snake>();
 
     doNextChange(value){
         this.scoreChange.next(value);
+    };
+
+    doNextDeath(value){
+        this.snakeDead.next(value);
     };
 
     gameInit(mRows: number, mCols: number){
@@ -53,15 +58,16 @@ export class GameService {
 				// if(!(this.score % 5) && (this.score > 0)) this.gameAccelerate();
 				do {
 				this.apple = new Apple(this.mRows, this.mCols);
-				this.matrix.setCell(this.apple.body[1] + (this.apple.body[0]*this.mCols), 'apple');
 				}
 				while (this.snake.body.some(function(currentEl){
 					return (this.apple.body[0] == currentEl[0] && this.apple.body[1] == currentEl[1])}, this));
+                this.matrix.setCell(this.apple.body[1] + (this.apple.body[0]*this.mCols), 'apple');
 			};
-		// if(!this.snake.alive) this.gameStop();
-        console.log(this.apple.body[0], this.apple.body[1]);
-        this.matrix.setCell((this.mCols)*this.snake.body[0][0] + this.snake.body[0][1], 'snake');
-		this.matrix.setCell((this.mCols)*this.snake.lastBody[this.snake.lastBody.length - 1][0] + this.snake.lastBody[this.snake.lastBody.length - 1][1], 'empty');
+		if(!this.snake.alive) this.gameStop()
+        else {
+            this.matrix.setCell((this.mCols)*this.snake.body[0][0] + this.snake.body[0][1], 'snake');
+            this.matrix.setCell((this.mCols)*this.snake.lastBody[this.snake.lastBody.length - 1][0] + this.snake.lastBody[this.snake.lastBody.length - 1][1], 'empty');
+        };
     };
 
     changeCourse(keyCode: number){
@@ -95,6 +101,12 @@ export class GameService {
         this.intID = setInterval(() => {
 			this.move();
 		}, 200);
+    };
+
+    gameStop(){
+        this.play = false;
+		clearInterval(this.intID);
+        this.doNextDeath(this.snake);
     };
 
     isSnake(index: number){
@@ -136,6 +148,18 @@ export class Snake {
 		this.alive = true;
 	}
 
+    checkAlive() {
+		if(this.body.length > 3){
+			this.alive = !this.body.some(function(currentItem, index: number){
+				if(index > 0)
+					return (this.body[0][0] == currentItem[0] && this.body[0][1] == currentItem[1])
+			}, this);
+		}
+		if(this.body[0][0] < 0 || this.body[0][1] < 0 || 
+			this.body[0][0] > this.maxCols - 1 || this.body[0][1] > this.maxRows - 1)
+			this.alive = false;
+	};
+
     move(){
       this.lastBody = this.body.slice();
       switch(this.direction)
@@ -154,6 +178,7 @@ export class Snake {
 				break;								
 		}
       this.body.pop();
+      this.checkAlive();
     };
 
     eat(){
@@ -166,6 +191,7 @@ export class Apple {
     body: number[];
 
 	constructor(private mRows: number, private mCols: number){
-		this.body = [Math.round(Math.random()*mRows), Math.round(Math.random()*mCols)];
+		this.body = [Math.round(Math.random()*(mRows-1)), Math.round(Math.random()*(mCols-1))];
+        console.log(this.body[0], this.body[1]);
 	}
 }

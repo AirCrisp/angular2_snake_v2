@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 
 import { KEYS } from './app.config';
 import { GameService } from './game.service';
@@ -10,18 +10,32 @@ import { GameService } from './game.service';
 })
 export class GameComponent implements OnInit{
   title = 'Angular2Snake';
+  @ViewChild("death") death;
   rows = 20;
   cols = 20;
   matrixBody = Array();
-  buttonVisible: boolean = true;
-  isPause: boolean;
+  buttonLayerVisible: boolean = true;
+  isPlay: boolean = false;
+  isPause: boolean = false;
+  isDead: boolean = false;
 
-  constructor(private gameService: GameService){};
+  constructor(private gameService: GameService){
+    this.gameService.snakeDead.subscribe(() => {
+          this.isDead = true;
+          this.buttonLayerVisible = true;
+          this.death.nativeElement.addEventListener('animationend', () => {
+            this.isDead = false;
+            this.isPlay = false;
+          });
+    });
+  };
 
   ngOnInit(){
       this.gameService.gameInit(this.rows, this.cols);
+      this.isDead = false;
+      this.buttonLayerVisible = true;
       this.matrixBody = this.gameService.matrix.body;
-      this.isPause = this.gameService.pause;
+      console.log(this.buttonLayerVisible, this.isPlay, this.isPause, this.isDead);
   };
 
   @HostListener('window:keydown', ['$event']) keyboardInput(event: KeyboardEvent) {
@@ -44,20 +58,25 @@ export class GameComponent implements OnInit{
   gameStart(event: any){
     this.gameService.gameInit(this.rows, this.cols);
     event.target.blur();
-    this.buttonVisible = false;
+    this.buttonLayerVisible = false;
+    this.isPlay = true;
+    this.isPause = false;
+    this.isDead = false;
     this.gameService.gameStart();
   };
 
   gamePause(event:any){
     event.target.blur();
-    this.buttonVisible = true;
+    this.buttonLayerVisible = true;
+    this.isPause = true;
     this.gameService.gamePause();
     this.isPause = this.gameService.pause;
   };
 
   gameResume(event: any) {
     event.target.blur();
-    this.buttonVisible = false;
+    this.buttonLayerVisible = false;
+    this.isPause = false;
     this.gameService.gameResume();
   };
 

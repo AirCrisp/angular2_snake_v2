@@ -1,3 +1,10 @@
+@keyframes dead {
+    100%  {
+        margin-top: -100%;
+        opacity: 0;
+        }
+}
+
 md-grid-tile {
   background-color:rgb(27,29,28);
 }
@@ -52,4 +59,20 @@ md-grid-tile {
 
 .hide {
 	display:none;
+}
+
+.dead {
+    color: red;
+    text-transform: uppercase;
+    animation-name: dead;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-delay: 1s;
+}
+
+@media (min-width: 400px) {
+  md-grid-list {
+    padding-bottom: 400px !important;
+  }
 }
