@@ -21,13 +21,13 @@ md-grid-tile {
 }
 
 .snake {
-    background-image: url('/assets/rect.png');
+    background-image: url('../assets/rect.png');
     background-position: 50% 50%;
     background-size: 300%;
 }
 
 .apple {
-    background-image: url('/assets/apple.png');
+    background-image: url('../assets/apple.png');
     background-position: 50% 50%;
     background-size: 300%;
 }

@@ -18,7 +18,7 @@ div {
 }
 
 .score {
-    background-image: url('/assets/apple.png');
+    background-image: url('../assets/apple.png');
     padding-left:40px;
     background-position: 60% 54%;
     background-size: 4rem 4rem;
